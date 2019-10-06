@@ -38,10 +38,10 @@ class CaseController extends Controller
     {
         $data = $request->validated();
 
-        $data = Arr::sort($data, function($value) {
-            $order = ['type', 'psu', ];
-            return $order[$value] ?? 100;
-        });
+//        $data = Arr::sort($data, function($value) {
+//            $order = ['type', 'psu'];
+//            return $order[$value] ?? 100;
+//        });
 
         $case = CasePart::create($data);
 

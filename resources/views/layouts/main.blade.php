@@ -20,7 +20,7 @@
 {{--            <img class="logo" src="{{ asset('img/logo.png') }}">--}}
             SFF CASES
         </a>
-        <a href="#" class="item"><i class="plus icon"></i> Add case</a>
+        <a href="{{ route('cases.index') }}" class="item"><i class="plus icon"></i> Add case</a>
 {{--        <div class="ui simple dropdown item">--}}
 {{--            Dropdown <i class="dropdown icon"></i>--}}
 {{--            <div class="menu">--}}

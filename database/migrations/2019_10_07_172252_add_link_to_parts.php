@@ -14,7 +14,7 @@ class AddLinkToParts extends Migration
     public function up()
     {
         Schema::table('parts', function (Blueprint $table) {
-            $table->string('link', 255)->after('slug');
+            $table->string('link', 255)->nullable()->after('slug');
         });
     }
 

@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCaseRequest;
 use App\Http\Requests\UpdateCaseRequest;
 use App\Models\Parts\CasePart;
-use App\Models\Parts\Part;
-use Illuminate\Support\Arr;
 use Spatie\MediaLibrary\FileAdder\FileAdder;
 
 class CaseController extends Controller
@@ -51,20 +49,24 @@ class CaseController extends Controller
             });
         }
 
-        return back()->with('message', ['status' => 'success', 'message' => 'Item saved successfully']);
+        return back()->with('message', ['status' => 'success', 'message' => 'Case saved successfully']);
     }
 
-    public function update(CasePart $case, UpdateCaseRequest $request)
+    public function update(CasePart $casePart, UpdateCaseRequest $request)
     {
         $data = $request->validated();
 
-        $case->fill($data)->save();
+        $casePart->fill($data)->save();
 
         if ($request->hasFile('images.*')) {
-            $case->addMultipleMediaFromRequest(['images'])->each(function(FileAdder $fileAdder) {
+            $casePart->addMultipleMediaFromRequest(['images'])->each(function(FileAdder $fileAdder) {
                 $fileAdder->preservingOriginal()->toMediaCollection('gallery');
             });
         }
+
+        return response()
+            ->redirectToRoute('cases.show', $casePart)
+            ->with('message', ['status' => 'success', 'message' => 'Case saved successfully']);
     }
 
     public function delete(CasePart $casePart)

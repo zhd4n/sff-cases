@@ -6,7 +6,7 @@
           class="ui form @if($errors->any()) error @endif">
         @csrf
         @isset($case)
-            @method('PATCH')
+            @method('PUT')
         @endisset
         <div class="ui error message">
             <div class="header">Validation error</div>

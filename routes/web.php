@@ -24,7 +24,7 @@ Route::get('cases/{case_part}/edit', ['as' => 'cases.edit', 'uses' => 'CaseContr
 Route::put('cases/{case_part}', ['as' => 'cases.update', 'uses' => 'CaseController@update']);
 Route::delete('cases/{case_part}', ['as' => 'cases.delete', 'uses' => 'CaseController@delete']);
 Route::delete('cases/{case_part}/media/{media}/delete', ['as' => 'cases.media.delete', 'uses' => 'CaseController@deleteMedia']);
-Route::delete('cases/{case_part}/media/{media}/delete', ['as' => 'cases.media.delete-all', 'uses' => 'CaseController@deleteAllMedia']);
+Route::delete('cases/{case_part}/media/delete-all', ['as' => 'cases.media.delete-all', 'uses' => 'CaseController@deleteAllMedia']);
 
 Route::get('cases/{case_part}', ['as' => 'cases.show', 'uses' => 'CaseController@show']);
 

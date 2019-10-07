@@ -53,6 +53,7 @@ class Part extends Model implements HasMedia
     protected $fillable = [
         'title',
         'slug',
+        'link',
         'price',
         'description',
         'properties',

@@ -36,6 +36,7 @@ class CaseController extends Controller
     {
         $data = $request->validated();
 
+        //TODO sort properties
 //        $data = Arr::sort($data, function($value) {
 //            $order = ['type', 'psu'];
 //            return $order[$value] ?? 100;
@@ -81,9 +82,9 @@ class CaseController extends Controller
         return ['status' => 'success', 'redirect' => route('cases.index')];
     }
 
-    public function deleteMedia(CasePart $case, int $mediaId)
+    public function deleteMedia(CasePart $casePart, int $mediaId)
     {
-        $case->deleteMedia($mediaId);
+        $casePart->deleteMedia($mediaId);
     }
 
     public function deleteAllMedia(CasePart $case)

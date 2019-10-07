@@ -36,11 +36,30 @@
             </h1>
             <div class="ui basic segment">
                 <h4 class="ui header">Photos</h4>
-                <label for="images" class="ui icon button">
-                    <i class="file icon"></i>
-                    Choose files
-                </label>
-                <input type="file" id="images" name="images[]" multiple="multiple" accept="image/png, image/jpeg, image/gif" class="ui file input">
+                <div class="field">
+                    <label for="images" class="ui icon button">
+                        <i class="file icon"></i>
+                        Choose files
+                    </label>
+                    <input type="file" id="images" name="images[]" multiple="multiple" accept="image/png, image/jpeg, image/gif" class="ui file input">
+                </div>
+                @isset($case)
+                    <div class="ui cards">
+                    @foreach ($case->getMedia('gallery') as $photo)
+                        <div class="ui card">
+                            <div class="image">
+                                <img class="image" src="{{ $photo->getUrl() }}">
+                            </div>
+                            <div class="extra content">
+                            <a href="{{ route('cases.media.delete', ['case_part' => $case, 'media' => $photo]) }}" class="ui ajax-delete fluid bottom button">
+                                <i class="trash icon"></i>
+                                Delete
+                            </a>
+                            </div>
+                        </div>
+                    @endforeach
+                    </div>
+                @endisset
             </div>
 
             <div class="ui secondary basic segment">

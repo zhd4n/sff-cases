@@ -1,27 +1,15 @@
-@import "https://cdn.jsdelivr.net/npm/fomantic-ui@2.7.8/dist/semantic.min.css";
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
 
-body {
-  background-color: #FFFFFF;
-}
-.ui.menu .item img.logo {
-  margin-right: 1.5em;
-}
-.main.container {
-  margin-top: 7em;
-}
-.wireframe {
-  margin-top: 2em;
-}
-.ui.footer.segment {
-  margin: 5em 0em 0em;
-  padding: 5em 0em;
-}
-.ui.file.input {
-  display: none;
-}
+// Variables
+@import 'variables';
 
-.product > .meta > span {
-  display: inline-block;
-  margin-right: 10px;
-  color: gray;
-}
+// Bootstrap
+//@import '~bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap-vue/src/index.scss';
+
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';

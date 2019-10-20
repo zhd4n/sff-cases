@@ -13,3 +13,8 @@
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/brands';
+
+.custom-file label {
+    white-space: nowrap;
+    overflow-x: hidden;
+}

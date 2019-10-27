@@ -101,6 +101,7 @@
                         <b-form-group label="Length, mm">
                             <b-input name="properties[size][length]"
                                      v-model="form.properties.size.length" type="number"
+                                     @input="calculateVolume"
                                      :state="isValid('properties.size.length')"
                                      placeholder="Case length"></b-input>
                             <b-form-invalid-feedback>
@@ -112,6 +113,7 @@
                         <b-form-group label="Width, mm">
                             <b-input name="properties[size][width]"
                                      v-model="form.properties.size.width" type="number"
+                                     @input="calculateVolume"
                                      :state="isValid('properties.size.length')"
                                      placeholder="Case width"></b-input>
                             <b-form-invalid-feedback>
@@ -123,6 +125,7 @@
                         <b-form-group label="Height, mm">
                             <b-input name="properties[size][height]"
                                      v-model="form.properties.size.height" type="number"
+                                     @input="calculateVolume"
                                      :state="isValid('properties.size.height')"
                                      placeholder="Case height"></b-input>
                             <b-form-invalid-feedback>
@@ -131,7 +134,7 @@
                         </b-form-group>
                     </b-col>
                     <b-col>
-                        <b-form-group label="Volume, mm">
+                        <b-form-group label="Volume, liters">
                             <b-input name="properties[size][volume]"
                                      v-model="form.properties.size.volume" type="number"
                                      :state="isValid('properties.size.volume')"
@@ -469,6 +472,25 @@
                 }
                 return this.form.getError(field);
             },
+
+            calculateVolume() {
+                if (
+                    typeof this.form.properties.size.width !== 'string'
+                    || typeof this.form.properties.size.height !== 'string'
+                    || typeof this.form.properties.size.length !== 'string'
+                ) {
+                    return;
+                }
+
+                let volume = this.form.properties.size.width * this.form.properties.size.height * this.form.properties.size.length;
+                volume = volume / 1000 / 1000;
+                this.form.properties.size.volume = _.round(volume, 1);
+            }
+        },
+        computed: {
+            volume() {
+                return (this.form.properties.size.width * this.form.properties.size.height * this.form.properties.size.length) / 1000 / 1000;
+            }
         },
         watch: {
             "form.upload": function (newValue, oldValue) {
@@ -484,7 +506,7 @@
                 });
 
                 this.uploadPreview = newPreviews;
-            }
+            },
         },
     }
 </script>

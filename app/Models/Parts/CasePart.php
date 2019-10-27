@@ -52,7 +52,7 @@ class CasePart extends Part
         'properties.size.length'    => 'nullable|integer',
         'properties.size.width'     => 'nullable|integer',
         'properties.size.height'    => 'nullable|integer',
-        'properties.size.volume'    => 'nullable|integer',
+        'properties.size.volume'    => 'nullable|numeric',
         'properties.size.footprint' => 'nullable|integer',
         'properties.storage.hdd'    => 'nullable|integer',
         'properties.storage.ssd'    => 'nullable|integer',

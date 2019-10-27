@@ -26,4 +26,17 @@ class UpdateCaseRequest extends FormRequest
     {
         return CasePart::$rules;
     }
+
+    protected function prepareForValidation()
+    {
+        //$this->merge(['gallery' => json_decode($this->gallery)]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRedirect(): string
+    {
+        return $this->redirect;
+    }
 }

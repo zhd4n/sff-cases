@@ -1,5 +1,5 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 // Variables
 @import 'variables';
@@ -17,4 +17,30 @@
 .custom-file label {
     white-space: nowrap;
     overflow-x: hidden;
+}
+.spec {
+    background: #ffffff;
+    vertical-align: top;
+    font-weight: normal;
+}
+.spec:after {
+    position: absolute;
+    right: 5px;
+    left: 0;
+    top: 15px;
+    height: 1px;
+    //margin: .85em 0 0;
+    content: '';
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAABCAAAAAA+i0toAAAAAnRSTlMA/1uRIrUAAAAMSURBVHheY7j1/z8ABY8C2UtBe8oAAAAASUVORK5CYII=) 0 0 repeat-x;
+}
+.spec-inner {
+    position: relative;
+    padding: 0 10px 0 0;
+    background: inherit;
+    z-index: 2;
+
+}
+
+.page-header {
+    @extend  .pb-2, .mb-3, .border-bottom, .border-dark;
 }

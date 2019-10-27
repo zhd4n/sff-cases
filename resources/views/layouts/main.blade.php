@@ -7,12 +7,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <link rel="stylesheet" type="text/css" href="{{ mix('css/app.css') }}">
+    <link  href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="#">SFF Cases</a>
+        <a class="navbar-brand" href="/">SFF Cases</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -41,7 +42,7 @@
     </div>
 </nav>
 
-<div id="app" class="container pt-5">
+<div id="app">
 {{--    @if($message = session('message'))--}}
 {{--        <div class="ui icon message positive @if($message['status'] === 'error') negative @endif">--}}
 {{--            <i class="check icon @if($message['status'] === 'error') x @endif"></i>--}}
@@ -56,8 +57,10 @@
 
     @yield('content')
 </div>
+
 </body>
 
 <script src="{{ mix('js/app.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
 </body>
 </html>

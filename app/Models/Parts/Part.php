@@ -5,8 +5,8 @@ namespace App\Models\Parts;
 use App\Scopes\PartTypeScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
@@ -14,10 +14,10 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 /**
- * App\Models\Parts\Part
+ * App\Models\Parts\Part.
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $media
- * @property-read int|null $media_count
+ * @property \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $media
+ * @property int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part query()
@@ -42,6 +42,12 @@ use Spatie\Sluggable\SlugOptions;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereUpdatedAt($value)
+ * @property string|null $link
+ * @property mixed $formatted_price
+ * @property mixed $gallery
+ * @property mixed $sorted_properties
+ * @property mixed $upload
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereLink($value)
  */
 class Part extends Model implements HasMedia
 {
@@ -57,18 +63,21 @@ class Part extends Model implements HasMedia
         'price',
         'description',
         'properties',
+        'gallery',
+        'upload',
     ];
 
     protected $casts = [
-        'type' => 'string',
-        'title' => 'string',
-        'slug' => 'string',
-        'price' => 'decimal:2',
+        'type'       => 'string',
+        'title'      => 'string',
+        'slug'       => 'string',
+        'price'      => 'decimal:2',
         'properties' => 'array',
     ];
 
     protected $appends = [
-        'formatted_price'
+        'formatted_price',
+        'gallery',
     ];
 
     public $propertiesOrder = [];
@@ -102,7 +111,7 @@ class Part extends Model implements HasMedia
         if (class_exists($className)
             && is_subclass_of($className, self::class)
         ) {
-            $model = (new $className)->newInstance([], true);
+            $model = (new $className())->newInstance([], true);
         } else {
             $model = $this->newInstance([], true);
         }
@@ -114,31 +123,49 @@ class Part extends Model implements HasMedia
         return $model;
     }
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('gallery');
-    }
-
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('thumb')
-            ->width('100')
-            ->height('150')
-            ->sharpen('5')
-            ->performOnCollections('gallery');
+        $this->addMediaConversion('small')
+            ->keepOriginalImageFormat()
+            ->quality(100)
+            ->sharpen(10)
+            ->fit(Manipulations::FIT_FILL, 60, 60)
+            ->border(4, '#ffffff', Manipulations::BORDER_EXPAND)
+            ->background('transparent');
 
-        $this->addMediaConversion('big')
-            ->width('200')
-            ->height('400')
-            ->sharpen('5')
-            ->performOnCollections('gallery');
+        $this->addMediaConversion('medium')
+            ->keepOriginalImageFormat()
+            ->quality(100)
+            ->sharpen(10)
+            ->fit(Manipulations::FIT_FILL, 205, 205)
+            ->border(20, '#ffffff', Manipulations::BORDER_EXPAND)
+            ->background('transparent');
+
+        $this->addMediaConversion('large')
+            ->keepOriginalImageFormat()
+            ->quality(100)
+            ->sharpen(10)
+            ->fit(Manipulations::FIT_FILL, 310, 310)
+            ->border(20, '#ffffff', Manipulations::BORDER_EXPAND)
+            ->background('transparent');
+
+        $this->addMediaConversion('full')
+            ->keepOriginalImageFormat()
+            ->quality(100)
+            ->sharpen(10)
+            ->fit(Manipulations::FIT_FILL, 780, 580)
+            ->border(20, '#ffffff', Manipulations::BORDER_EXPAND)
+            ->background('transparent');
     }
 
     public function getRouteKeyName(): string
     {
+        if (in_array(request()->route()->methods()[0], ['POST', 'PUT', 'PATCH', 'DELETE'], true)) {
+            return 'id';
+        }
+
         return 'slug';
     }
-
 
     public function getFormattedPriceAttribute()
     {
@@ -154,7 +181,8 @@ class Part extends Model implements HasMedia
     public function getSortedPropertiesAttribute()
     {
         $order = array_flip($this->propertiesOrder);
-        return collect($this->properties)->sortBy(function($prop, $key) use ($order) {
+
+        return collect($this->properties)->sortBy(function ($prop, $key) use ($order) {
             return $order[$key] ?? 100;
         })->toArray();
     }
@@ -164,9 +192,52 @@ class Part extends Model implements HasMedia
         return $query->where('slug', $slug);
     }
 
-
     public function fromJson($value, $asObject = false)
     {
         return is_array($value) ? $value : json_decode($value, ! $asObject);
+    }
+
+    public function getGalleryAttribute()
+    {
+        if (! $this->relationLoaded('media')) {
+            return null;
+        }
+
+        $items = [];
+
+        /**
+         * @var Media $item
+         */
+        foreach ($this->getMedia('gallery') as $item) {
+            $items[] = [
+                'id'   => $item->id,
+                'name' => $item->name,
+                'url'  => $item->getUrl(),
+            ];
+        }
+
+        return $items;
+    }
+
+    public function setGalleryAttribute($value)
+    {
+        $gallery = $this->getMedia();
+
+        //Sync gallery
+        $newGallery = collect($value ?? []);
+
+        $gallery->each(function ($photo) use ($newGallery) {
+            if (! $newGallery->firstWhere('id', $photo['id'])) {
+                $this->deleteMedia($photo['id']);
+            }
+        });
+    }
+
+    public function setUploadAttribute($value)
+    {
+        foreach ($value as $file) {
+            //TODO generate name from slug
+            $this->addMedia($file)->toMediaCollection();
+        }
     }
 }

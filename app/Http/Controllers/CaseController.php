@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCaseRequest;
 use App\Http\Requests\UpdateCaseRequest;
 use App\Models\Parts\CasePart;
 
@@ -25,6 +26,15 @@ class CaseController extends Controller
     public function create()
     {
         return view('form');
+    }
+
+    public function store(StoreCaseRequest $request)
+    {
+        $data = $request->validated();
+
+        $case = CasePart::create($data);
+
+        return ['status' => 'success', 'redirect' => route('cases.show', $case->slug)];
     }
 
     public function update(CasePart $casePart, UpdateCaseRequest $request)
@@ -52,15 +62,5 @@ class CaseController extends Controller
         }
 
         return ['status' => 'success', 'redirect' => route('cases.index')];
-    }
-
-    public function deleteMedia(CasePart $casePart, int $mediaId)
-    {
-        $casePart->deleteMedia($mediaId);
-    }
-
-    public function deleteAllMedia(CasePart $case)
-    {
-        $case->clearMediaCollection('gallery');
     }
 }

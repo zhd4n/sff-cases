@@ -10,12 +10,12 @@
             <h3 class="h5 card-title">{{ $case->title }}</h3>
             <p class="card-text">
                 <dl class="row no-gutters">
-                    <dt class="col-sm- spec">
+                    <dt class="col-sm-8 spec">
                         <span class="spec-inner">@lang("parts/case.size.volume")</span>
                     </dt>
                     <dd class="col-sm-4">{{ $case->properties['size']['volume'] ?? 'n/a' }}</dd>
 
-                    <dt class="col-sm- spec">
+                    <dt class="col-sm-8 spec">
                         <span class="spec-inner">@lang("parts/case.type")</span>
                     </dt>
                     <dd class="col-sm-4">{{ __("parts/case.type.".$case->properties['type']) }}</dd>

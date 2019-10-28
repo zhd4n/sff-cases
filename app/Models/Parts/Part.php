@@ -208,7 +208,7 @@ class Part extends Model implements HasMedia
         /**
          * @var Media $item
          */
-        foreach ($this->getMedia('gallery') as $item) {
+        foreach ($this->getMedia() as $item) {
             $items[] = [
                 'id'   => $item->id,
                 'name' => $item->name,

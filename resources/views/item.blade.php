@@ -5,12 +5,20 @@
 @endphp
 
 @section('content')
-    <header class="container pt-5">
-        <h1>
-            {{ $case->title }}
-        </h1>
+    <header class="text-center p-5 mb-5 text-light bg-secondary">
+        <h1 class="mb-3">{{ $case->title }}</h1>
+
+        <ul class="list-inline small">
+            @if($case->price)
+                <li class="list-inline-item"><i class="fas fa-dollar-sign"></i> {{ $case->formatted_price }}</li>
+            @endif
+
+            @if($case->link)
+                <li class="list-inline-item"><a href="{{ $case->link }}" class="text-light"><i class="fas fa-link"></i> Official website</a></li>
+            @endif
+        </ul>
     </header>
-    <section class="container pt-5">
+    <section class="container">
         <div class="row">
             <div class="col-sm-4">
                 <div class="fotorama" data-nav="thumbs" data-allowfullscreen="true" data-arrows="false">
@@ -21,10 +29,10 @@
                 </div>
             </div>
             <div class="col-sm-8">
-                <h3 class="page-header">Description</h3>
+                <h4 class="page-header">Description</h4>
                 {{ $case->description }}
 
-                <h3 class="page-header mt-5">Specifications</h3>
+                <h4 class="page-header mt-5">Specifications</h4>
                 @foreach($case->sorted_properties as $k => $v)
                     @if (is_array($v))
                         <h5>@lang("parts/case.$k")</h5>

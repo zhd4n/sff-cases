@@ -7,11 +7,20 @@
             <img src="{{ $case->getFirstMediaUrl('default', 'medium') }}" class="card-img-top" alt="{{ $case->title  }} photo">
         </a>
         <div class="card-body">
-            <h3 class="h4 card-title">{{ $case->title }}</h3>
+            <h3 class="h5 card-title">{{ $case->title }}</h3>
             <p class="card-text">
-                {{ $case->properties['size']['volume'] ?? 'volume' }}<br>
-                {{ $case->properties['type'] }}<br>
-                {{ implode(', ', $case->properties['psu']['type']) }}
+                <dl class="row no-gutters">
+                    <dt class="col-sm- spec">
+                        <span class="spec-inner">@lang("parts/case.size.volume")</span>
+                    </dt>
+                    <dd class="col-sm-4">{{ $case->properties['size']['volume'] ?? 'n/a' }}</dd>
+
+                    <dt class="col-sm- spec">
+                        <span class="spec-inner">@lang("parts/case.type")</span>
+                    </dt>
+                    <dd class="col-sm-4">{{ __("parts/case.type.".$case->properties['type']) }}</dd>
+
+                </dl>
             </p>
         </div>
         <div class="card-footer">

@@ -147,6 +147,36 @@
                 </b-form-row>
             </b-form-group>
 
+            <b-form-group label="PSU" :disabled="loading" label-size="lg">
+                <b-form-row>
+                    <b-col>
+                        <b-form-group label="Type">
+                            <b-form-checkbox-group
+                                name="properties[psu][type][]"
+                                :options="psuTypes"
+                                v-model="form.properties.psu.type"
+                                :state="isValid('properties.psu.type')"
+                            ></b-form-checkbox-group>
+                            <b-form-invalid-feedback :state="isValid('properties.psu.type')">
+                                {{ validationMessage('properties.psu.type') }}
+                            </b-form-invalid-feedback>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group label="Max length, mm">
+                            <b-input name="properties[psu][max_length]"
+                                     v-model="form.properties.psu.max_length" type="number"
+                                     :state="isValid('properties.psu.max_length')"
+                                     placeholder="Max PSU height">
+                            </b-input>
+                            <b-form-invalid-feedback>
+                                {{ validationMessage('properties.psu.max_length') }}
+                            </b-form-invalid-feedback>
+                        </b-form-group>
+                    </b-col>
+                </b-form-row>
+            </b-form-group>
+
             <b-form-group label="CPU & GPU" :disabled="loading" label-size="lg">
                 <b-form-row>
                     <b-col>
@@ -180,36 +210,6 @@
                             </b-input>
                             <b-form-invalid-feedback>
                                 {{ validationMessage('properties.gpu.slots') }}
-                            </b-form-invalid-feedback>
-                        </b-form-group>
-                    </b-col>
-                </b-form-row>
-            </b-form-group>
-
-            <b-form-group label="PSU" :disabled="loading" label-size="lg">
-                <b-form-row>
-                    <b-col>
-                        <b-form-group label="Type">
-                            <b-form-checkbox-group
-                                name="properties[psu][type][]"
-                                :options="psuTypes"
-                                v-model="form.properties.psu.type"
-                                :state="isValid('properties.psu.type')"
-                            ></b-form-checkbox-group>
-                            <b-form-invalid-feedback :state="isValid('properties.psu.type')">
-                                {{ validationMessage('properties.psu.type') }}
-                            </b-form-invalid-feedback>
-                        </b-form-group>
-                    </b-col>
-                    <b-col>
-                        <b-form-group label="Max length, mm">
-                            <b-input name="properties[psu][max_length]"
-                                     v-model="form.properties.psu.max_length" type="number"
-                                     :state="isValid('properties.psu.max_length')"
-                                     placeholder="Max PSU height">
-                            </b-input>
-                            <b-form-invalid-feedback>
-                                {{ validationMessage('properties.psu.max_length') }}
                             </b-form-invalid-feedback>
                         </b-form-group>
                     </b-col>

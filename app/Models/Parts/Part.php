@@ -16,38 +16,39 @@ use Spatie\Sluggable\SlugOptions;
 /**
  * App\Models\Parts\Part.
  *
- * @property \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $media
- * @property int|null $media_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part slug($slug)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part type($type)
- * @mixin \Eloquent
  * @property int $id
  * @property string $type
  * @property string $title
  * @property string $slug
+ * @property string|null $link
  * @property string $description
- * @property string $price
+ * @property mixed $price
  * @property array $properties
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property mixed|null $Column 11
+ * @property mixed $formatted_price
+ * @property mixed $gallery
+ * @property mixed $sorted_properties
+ * @property \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $media
+ * @property int|null $media_count
+ * @property mixed $upload
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part slug($slug)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereColumn11($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereLink($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereProperties($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereUpdatedAt($value)
- * @property string|null $link
- * @property mixed $formatted_price
- * @property mixed $gallery
- * @property mixed $sorted_properties
- * @property mixed $upload
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Parts\Part whereLink($value)
+ * @mixin \Eloquent
  */
 class Part extends Model implements HasMedia
 {

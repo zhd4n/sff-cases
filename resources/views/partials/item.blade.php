@@ -8,7 +8,7 @@
         </a>
         <div class="card-body">
             <h3 class="h5 card-title">{{ $case->title }}</h3>
-            <p class="card-text">
+            <div class="card-text">
                 <dl class="row no-gutters">
                     <dt class="col-sm-8 spec">
                         <span class="spec-inner">@lang("parts/case.size.volume")</span>
@@ -19,9 +19,8 @@
                         <span class="spec-inner">@lang("parts/case.type")</span>
                     </dt>
                     <dd class="col-sm-4">{{ __("parts/case.type.".$case->properties['type']) }}</dd>
-
                 </dl>
-            </p>
+            </div>
         </div>
         <div class="card-footer">
             <div class="row">

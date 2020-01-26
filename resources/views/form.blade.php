@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="container pt-5">
-        <form-component :case='@json(optional($case)->toArray())'></form-component>
+        <form-component :case='@json(optional($case ?? null)->toArray())'></form-component>
     </div>
 @endsection

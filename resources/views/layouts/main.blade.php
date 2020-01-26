@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
     <title>SFF Cases</title>
+
     <meta charset="utf-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <link rel="stylesheet" type="text/css" href="{{ mix('css/app.css') }}">
+
     <link  href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
 </head>
 <body>
@@ -20,24 +24,47 @@
 
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('cases.create') }}">Add case</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown07">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('cases.create') }}">Add case</a>
+                    </li>
+                @endauth
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link disabled" href="#">Disabled</a>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item dropdown">--}}
+{{--                    <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>--}}
+{{--                    <div class="dropdown-menu" aria-labelledby="dropdown07">--}}
+{{--                        <a class="dropdown-item" href="#">Action</a>--}}
+{{--                        <a class="dropdown-item" href="#">Another action</a>--}}
+{{--                        <a class="dropdown-item" href="#">Something else here</a>--}}
+{{--                    </div>--}}
+{{--                </li>--}}
             </ul>
 {{--            <form class="form-inline my-2 my-md-0">--}}
 {{--                <input class="form-control" type="text" placeholder="Search" aria-label="Search">--}}
 {{--            </form>--}}
+            @auth
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->name }} <span class="caret"></span>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            @endauth
         </div>
     </div>
 </nav>
@@ -62,5 +89,5 @@
 
 <script src="{{ mix('js/app.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
-</body>
+
 </html>

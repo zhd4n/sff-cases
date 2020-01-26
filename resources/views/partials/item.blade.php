@@ -27,10 +27,12 @@
                 <div class="col">
                     ${{ $case->formatted_price }}
                 </div>
-                <div class="col text-right">
-                    <a href="{{ route('cases.edit', $case) }}"><i class="far fa-edit"></i></a>
-                    <a class="ajax-link" data-method="delete" href="{{ route('cases.delete', $case->id) }}"><i class="far text-danger fa-trash-alt"></i></a>
-                </div>
+                @auth
+                    <div class="col text-right">
+                        <a href="{{ route('cases.edit', $case) }}"><i class="far fa-edit"></i></a>
+                        <a class="ajax-link" data-method="delete" href="{{ route('cases.delete', $case->id) }}"><i class="far text-danger fa-trash-alt"></i></a>
+                    </div>
+                @endauth
             </div>
         </div>
     </div>

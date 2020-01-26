@@ -17,13 +17,19 @@ Route::get('/test', function () {
     });
 });
 
+Auth::routes(['register' => false]);
+
 Route::get('/', ['uses' => 'CaseController@index', 'as' => 'cases.index']);
-Route::get('cases/create', ['as' => 'cases.create', 'uses' => 'CaseController@create']);
-Route::post('cases', ['as' => 'cases.store', 'uses' => 'CaseController@store']);
-Route::get('cases/{case_part}/edit', ['as' => 'cases.edit', 'uses' => 'CaseController@edit']);
-Route::put('cases/{case_part}', ['as' => 'cases.update', 'uses' => 'CaseController@update']);
-Route::delete('cases/{case_part}', ['as' => 'cases.delete', 'uses' => 'CaseController@destroy']);
-Route::delete('cases/{case_part}/media/{media}/delete', ['as' => 'cases.media.delete', 'uses' => 'CaseController@deleteMedia']);
-Route::delete('cases/{case_part}/media/delete-all', ['as' => 'cases.media.delete-all', 'uses' => 'CaseController@deleteAllMedia']);
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('cases/create', ['as' => 'cases.create', 'uses' => 'CaseController@create']);
+
+    Route::get('cases/{case_part}/edit', ['as' => 'cases.edit', 'uses' => 'CaseController@edit']);
+    Route::post('cases', ['as' => 'cases.store', 'uses' => 'CaseController@store']);
+    Route::put('cases/{case_part}', ['as' => 'cases.update', 'uses' => 'CaseController@update']);
+    Route::delete('cases/{case_part}', ['as' => 'cases.delete', 'uses' => 'CaseController@destroy']);
+    Route::delete('cases/{case_part}/media/{media}/delete', ['as' => 'cases.media.delete', 'uses' => 'CaseController@deleteMedia']);
+    Route::delete('cases/{case_part}/media/delete-all', ['as' => 'cases.media.delete-all', 'uses' => 'CaseController@deleteAllMedia']);
+});
 
 Route::get('cases/{case_part}', ['as' => 'cases.show', 'uses' => 'CaseController@show']);

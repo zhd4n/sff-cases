@@ -1,7 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>SFF Cases</title>
+    <title>
+        @hasSection('pageTitle')
+            @yield('pageTitle') — SFF Cases
+        @else
+            SFF Cases
+        @endif
+    </title>
 
     <meta charset="utf-8">
 

@@ -4,6 +4,8 @@
 /* @var \App\Models\Parts\CasePart $case */
 @endphp
 
+@section('pageTitle', $case->title)
+
 @section('content')
     <header class="text-center p-5 mb-5 text-light bg-secondary">
         <h1 class="mb-3">{{ $case->title }}</h1>
